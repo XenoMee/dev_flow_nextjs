@@ -12,7 +12,7 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(
 );
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mode, setMode] = useState<string>('system');
+  const [mode, setMode] = useState<string>('light');
 
   const handleThemeChange = useCallback(() => {
     localStorage.theme = mode;
@@ -39,8 +39,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     handleThemeChange();
   }, [handleThemeChange]);
-
-  console.log('Theme: ', mode);
 
   return (
     <ThemeContext.Provider value={{ mode, setMode }}>
