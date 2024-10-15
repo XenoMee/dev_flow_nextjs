@@ -1,10 +1,10 @@
 'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import useTheme from '@/hooks/useTheme';
 
 import { themes } from '@/constants';
-import { Mode } from '@/types';
 
 import {
   Menubar,
@@ -17,33 +17,25 @@ import {
 const Theme = () => {
   const { mode, setMode } = useTheme();
 
-  const setLocalStorageTheme = (theme: Mode) => {
-    setMode(theme.value);
-
-    theme.value === 'system'
-      ? (localStorage.theme = theme.value)
-      : localStorage.removeItem('theme');
-  };
-
   return (
     <Menubar className='relative border-none bg-transparent shadow-none'>
       <MenubarMenu>
         <MenubarTrigger
-          className='focus:bg-light-900 data-[status=open]:bg-light-900 
-        dark:focus:bg-dark-200 dark:data-[status=open]:bg-dark-200'
+          className='focus:bg-light-900 data-[state=open]:bg-light-900 
+        dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200'
         >
           {mode === 'light' ? (
             <Image
-              src='/assets/icons/sun.svg'
-              alt='sun'
+              src='/assets/icons/moon.svg'
+              alt='moon'
               width={20}
               height={20}
               className='active-theme'
             />
           ) : (
             <Image
-              src='/assets/icons/moon.svg'
-              alt='moon'
+              src='/assets/icons/sun.svg'
+              alt='sun'
               width={20}
               height={20}
               className='active-theme'
@@ -52,12 +44,12 @@ const Theme = () => {
         </MenubarTrigger>
         <MenubarContent
           className='absolute -right-12 mt-3 min-w-32 rounded border py-2 
-        dark:border-dark-400 dark:bg-dark-400'
+        dark:border-dark-400 dark:bg-dark-300'
         >
           {themes.map((item) => (
             <MenubarItem
               key={item.value}
-              onClick={() => setLocalStorageTheme(item)}
+              onClick={() => setMode(item.value)}
               className='flex items-center gap-4 px-2.5 py-2 dark:focus:bg-dark-400'
             >
               <Image

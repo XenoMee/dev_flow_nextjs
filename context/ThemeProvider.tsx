@@ -12,25 +12,35 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(
 );
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mode, setMode] = useState('');
+  const [mode, setMode] = useState<string>('system');
 
   const handleThemeChange = useCallback(() => {
+    localStorage.theme = mode;
+
+    const currentTheme = localStorage.getItem('theme');
+    const isSysThemeDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+
+    if (currentTheme === 'system') localStorage.removeItem('theme');
+
     if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
+      currentTheme === 'dark' ||
+      (!('theme' in localStorage) && isSysThemeDark)
     ) {
-      setMode('dark');
+      localStorage.theme = 'dark';
       document.body.classList.add('dark');
     } else {
-      setMode('light');
+      localStorage.theme = 'light';
       document.body.classList.remove('dark');
     }
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     handleThemeChange();
   }, [handleThemeChange]);
+
+  console.log('Theme: ', mode);
 
   return (
     <ThemeContext.Provider value={{ mode, setMode }}>
