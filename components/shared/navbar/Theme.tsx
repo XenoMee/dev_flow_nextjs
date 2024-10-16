@@ -27,16 +27,16 @@ const Theme = () => {
         >
           {mode === 'light' ? (
             <Image
-              src='/assets/icons/moon.svg'
-              alt='moon'
+              src='/assets/icons/sun.svg'
+              alt='sun'
               width={20}
               height={20}
               className='active-theme cursor-pointer'
             />
           ) : (
             <Image
-              src='/assets/icons/sun.svg'
-              alt='sun'
+              src='/assets/icons/moon.svg'
+              alt='moon'
               width={20}
               height={20}
               className='active-theme cursor-pointer'
