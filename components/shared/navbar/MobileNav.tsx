@@ -14,7 +14,7 @@ import Link from 'next/link';
 
 import { sidebarLinks } from '@/constants';
 import { SignedOut } from '@clerk/nextjs';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 
 const NavContent = () => {
   const pathname = usePathname();
