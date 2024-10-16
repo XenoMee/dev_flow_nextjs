@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+
 import useTheme from '@/hooks/useTheme';
 
 import { themes } from '@/constants';
@@ -30,7 +31,7 @@ const Theme = () => {
               alt='moon'
               width={20}
               height={20}
-              className='active-theme'
+              className='active-theme cursor-pointer'
             />
           ) : (
             <Image
@@ -38,7 +39,7 @@ const Theme = () => {
               alt='sun'
               width={20}
               height={20}
-              className='active-theme'
+              className='active-theme cursor-pointer'
             />
           )}
         </MenubarTrigger>
@@ -49,7 +50,15 @@ const Theme = () => {
           {themes.map((item) => (
             <MenubarItem
               key={item.value}
-              onClick={() => setMode(item.value)}
+              onClick={() => {
+                setMode(item.value);
+
+                if (item.value !== 'system') {
+                  localStorage.theme = item.value;
+                } else {
+                  localStorage.removeItem('theme');
+                }
+              }}
               className='flex items-center gap-4 px-2.5 py-2 hover:cursor-pointer dark:focus:bg-dark-400'
             >
               <Image

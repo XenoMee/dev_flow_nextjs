@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 type ThemeContextType = {
   mode: string;
@@ -14,31 +14,23 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [mode, setMode] = useState<string>('light');
 
-  const handleThemeChange = useCallback(() => {
-    localStorage.theme = mode;
-
-    const currentTheme = localStorage.getItem('theme');
-    const isSysThemeDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-
-    if (currentTheme === 'system') localStorage.removeItem('theme');
-
+  const handleThemeChange = () => {
     if (
-      currentTheme === 'dark' ||
-      (!('theme' in localStorage) && isSysThemeDark)
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
     ) {
-      localStorage.theme = 'dark';
-      document.body.classList.add('dark');
+      setMode('dark');
+      document.documentElement.classList.add('dark');
     } else {
-      localStorage.theme = 'light';
-      document.body.classList.remove('dark');
+      setMode('light');
+      document.documentElement.classList.remove('dark');
     }
-  }, [mode]);
+  };
 
   useEffect(() => {
     handleThemeChange();
-  }, [handleThemeChange]);
+  }, [mode]);
 
   return (
     <ThemeContext.Provider value={{ mode, setMode }}>
