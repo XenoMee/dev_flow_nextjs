@@ -20,7 +20,7 @@ const NavContent = () => {
   const pathname = usePathname();
 
   return (
-    <section className='flex h-full flex-col gap-6 pt-16'>
+    <section className='flex h-full flex-col gap-6'>
       {sidebarLinks.map((item) => {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 0) ||
@@ -66,7 +66,10 @@ const MobileNav = () => {
           className='invert-colors sm:hidden'
         />
       </SheetTrigger>
-      <SheetContent side='left' className='bg-light900_dark200 border-none'>
+      <SheetContent
+        side='left'
+        className='bg-light900_dark200 flex flex-col justify-between border-none'
+      >
         <Link href='/' className='flex items-center gap-1'>
           <Image
             src='assets/images/site-logo.svg'
