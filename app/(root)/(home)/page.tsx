@@ -1,9 +1,47 @@
+import QuestionCard from '@/components/cards/QuestionCard';
 import HomeFilters from '@/components/home/HomeFilters';
 import Filter from '@/components/shared/filter/Filter';
+import NoResult from '@/components/shared/NoResult';
 import LocalSearch from '@/components/shared/search/LocalSearch';
 import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/filters';
 import Link from 'next/link';
+
+const questions = [
+  {
+    _id: '1',
+    title:
+      'How to Ensure Unique User Profile with ON CONFLICT in PostgreSQL Using Drizzle ORM?',
+    tags: [
+      { _id: '1', name: 'Postgre' },
+      { _id: '2', name: 'Drizzle' },
+    ],
+    author: {
+      _id: '1',
+      name: 'John Doe',
+      picture: 'joe-doe.png',
+    },
+    upvotes: 10,
+    views: 100,
+    answers: [],
+    createdAt: new Date('2024-09-01T12:00:00.000Z'),
+  },
+
+  {
+    _id: '2',
+    title: 'How to center a div?',
+    tags: [{ _id: '1', name: 'CSS' }],
+    author: {
+      _id: '2',
+      name: 'John Doe',
+      picture: 'john-doe.png',
+    },
+    upvotes: 10,
+    views: 100,
+    answers: [],
+    createdAt: new Date('2024-09-01T12:00:00.000Z'),
+  },
+];
 
 export default function Home() {
   return (
@@ -29,7 +67,7 @@ export default function Home() {
           route='/'
           iconPosition='left'
           imgSrc='assets/icons/search.svg'
-          placeholder='Search...'
+          placeholder='Search questions...'
           otherClasses='flex-1'
         />
         <Filter
@@ -40,6 +78,23 @@ export default function Home() {
       </div>
 
       <HomeFilters />
+
+      <div className='mt-10 flex w-full flex-col gap-6'>
+        {!questions.length ? (
+          <NoResult
+            title="There's no questions to show"
+            description='Be the first to break the silence! 🚀 Ask a Question and kickstart the
+            discussion. Our query could be the next big thing others learn from. Get
+            involved! 💡'
+            link='/ask-question'
+            linkTitle='Ask a Question'
+          />
+        ) : (
+          questions.map((question) => (
+            <QuestionCard key={question._id} question={question}></QuestionCard>
+          ))
+        )}
+      </div>
     </>
   );
 }

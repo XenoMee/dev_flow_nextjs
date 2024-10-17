@@ -8,8 +8,8 @@ const RightSidebar = () => {
   const popularTags = [];
 
   for (let i = 0; i < 5; i++) {
-    topQuestions.push({ id: i, title: 'Placeholder' });
-    popularTags.push({ id: i, name: 'javascript', totalQuestion: i });
+    topQuestions.push({ _id: `${i}`, title: 'Placeholder' });
+    popularTags.push({ _id: `${i}`, name: 'javascript', totalQuestion: i });
   }
 
   return (
@@ -23,8 +23,8 @@ const RightSidebar = () => {
         <div className='mt-7 flex w-full flex-col gap-8'>
           {topQuestions.map((question) => (
             <Link
-              key={question.id}
-              href={`/questions/${question.id}`}
+              key={question._id}
+              href={`/questions/${question._id}`}
               className='flex-between cursor-pointer gap-7'
             >
               <p className='body-medium text-dark500_light700'>
@@ -46,7 +46,7 @@ const RightSidebar = () => {
         <h3 className='h3-bold text-dark200_light900'>Popular Tags</h3>
         <div className='mt-7 flex flex-col gap-4'>
           {popularTags.map((tag) => (
-            <RenderTag key={tag.id} popularTag={tag} showCount />
+            <RenderTag key={tag._id} popularTag={tag} showCount />
           ))}
         </div>
       </div>
