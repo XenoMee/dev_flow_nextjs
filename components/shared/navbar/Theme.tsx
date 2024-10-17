@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import useTheme from '@/hooks/useTheme';
+import { useTheme } from 'next-themes';
 
 import { themes } from '@/constants';
 
@@ -16,7 +16,29 @@ import {
 } from '@/components/ui/menubar';
 
 const Theme = () => {
-  const { mode, setMode } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const { setTheme, resolvedTheme } = useTheme();
+
+  useEffect(() => setMounted(true), []);
+
+  const themeIcon =
+    resolvedTheme === 'light' ? (
+      <Image
+        src='/assets/icons/sun.svg'
+        alt='sun'
+        width={20}
+        height={20}
+        className='active-theme cursor-pointer'
+      />
+    ) : (
+      <Image
+        src='/assets/icons/moon.svg'
+        alt='moon'
+        width={20}
+        height={20}
+        className='active-theme cursor-pointer'
+      />
+    );
 
   return (
     <Menubar className='relative border-none bg-transparent shadow-none'>
@@ -25,22 +47,18 @@ const Theme = () => {
           className='focus:bg-light-900 data-[state=open]:bg-light-900 
         dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200'
         >
-          {mode === 'light' ? (
+          {!mounted ? (
             <Image
-              src='/assets/icons/sun.svg'
-              alt='sun'
+              src='data:image/svg+xml;base64,PHN2ZyBzdHJva2U9IiNGRkZGRkYiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBoZWlnaHQ9IjIwMHB4IiB3aWR0aD0iMjAwcHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiB4PSIyIiB5PSIyIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjIiIHJ4PSIyIj48L3JlY3Q+PC9zdmc+Cg=='
               width={20}
               height={20}
-              className='active-theme cursor-pointer'
+              sizes='20x20'
+              alt='Loading Light/Dark Toggle'
+              priority={false}
+              title='Loading Light/Dark Toggle'
             />
           ) : (
-            <Image
-              src='/assets/icons/moon.svg'
-              alt='moon'
-              width={20}
-              height={20}
-              className='active-theme cursor-pointer'
-            />
+            themeIcon
           )}
         </MenubarTrigger>
         <MenubarContent
@@ -50,15 +68,7 @@ const Theme = () => {
           {themes.map((item) => (
             <MenubarItem
               key={item.value}
-              onClick={() => {
-                setMode(item.value);
-
-                if (item.value !== 'system') {
-                  localStorage.theme = item.value;
-                } else {
-                  localStorage.removeItem('theme');
-                }
-              }}
+              onClick={() => setTheme(item.value)}
               className='flex items-center gap-4 px-2.5 py-2 hover:cursor-pointer dark:focus:bg-dark-400'
             >
               <Image
@@ -66,13 +76,13 @@ const Theme = () => {
                 alt={item.value}
                 width={16}
                 height={16}
-                className={mode === item.value ? 'active-theme' : ''}
+                className={resolvedTheme === item.value ? 'active-theme' : ''}
               />
 
               <p
                 className={`body-semibold text-light-500 
                    ${
-                     mode === item.value
+                     resolvedTheme === item.value
                        ? 'text-primary-500'
                        : 'text-dark100_light900'
                    }`}
