@@ -20,6 +20,7 @@ module.exports = {
       colors: {
         primary: {
           500: '#FF7000',
+          300: '#FC8F3C',
           100: '#FFF1E6',
         },
         dark: {
@@ -76,4 +77,3 @@ module.exports = {
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 };
-
