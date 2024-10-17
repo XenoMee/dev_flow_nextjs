@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ClerkProvider } from '@clerk/nextjs';
-import { ThemeProvider } from '@/context/ThemeProvider';
+import { ModeProvider } from '@/context/ThemeProvider';
 
 // eslint-disable-next-line camelcase
 import { Inter, Space_Grotesk } from 'next/font/google';
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
         <ClerkProvider
           appearance={{
@@ -47,7 +47,7 @@ export default function RootLayout({
             },
           }}
         >
-          <ThemeProvider>{children}</ThemeProvider>
+          <ModeProvider>{children}</ModeProvider>
         </ClerkProvider>
       </body>
     </html>
